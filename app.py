@@ -2,7 +2,7 @@ import pandas as pd
 import streamlit as st
 import plotly.express as px
 import plotly.graph_objects as go
-from modules import *
+import modules as mod
 import pycountry
 
 st.set_page_config(layout="wide")
@@ -77,8 +77,7 @@ def first_column(world_data):
 
     fully_vaccinated = world_data[world_data.people_fully_vaccinated.notnull()].people_fully_vaccinated.iloc[-1]
     once_vaccinated =  world_data[world_data.people_vaccinated_once.notnull()].people_vaccinated_once.iloc[-1]
-    data_fully = world_data[world_data.people_fully_vaccinated==fully_vaccinated].date
-
+  
     st.markdown("**Worldwide Vaccination**")
     st.warning(f'Fully Vaccinated: {format(fully_vaccinated, ",")}')
     st.warning(f'Once Vaccinated: {format(once_vaccinated, ",")}')
@@ -255,12 +254,11 @@ def fourth_column(countries_data):
     
 def app():
 
-    # Declare
-    df = get_data()
-    df = provide_people_vaccinated_once(df)
+    df = mod.get_data()
+    df = mod.provide_people_vaccinated_once(df)
 
-    categories = get_categories(df)
-    dataframes = get_data_per_categories(df,categories)
+    categories = mod.get_categories(df)
+    dataframes = mod.get_data_per_categories(df,categories)
 
     df_countries, df_conts, df_inc, df_world = dataframes
 
